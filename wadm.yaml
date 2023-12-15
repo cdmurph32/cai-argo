@@ -1,0 +1,42 @@
+# This is a full example of how to run the echo actor exposed with an HTTP server. Using this
+# example requires you to have WADM running: https://github.com/wasmCloud/wadm/.
+#
+# To run this example, use: `wash app deploy wadm.yaml`
+
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: poprox
+  annotations:
+    version: v0.0.1
+    description: "Provenance over proxy"
+spec:
+  components:
+    - name: rustls-wasi-demo
+      type: actor
+      properties:
+        image: registry.cosmonic.sh/6f4b0fd5-7fcf-4525-a23f-011d71717090/poprox_wc:0.1.0
+      traits:
+        - type: spreadscaler
+          properties:
+            replicas: 1
+        - type: linkdef
+          properties:
+            target: httpserver
+            values:
+              address: 0.0.0.0:8080
+        - type: linkdef
+          properties:
+            target: httpclient
+
+    - name: httpserver
+      type: capability
+      properties:
+        image: wasmcloud.azurecr.io/httpserver:0.19.1
+        contract: wasmcloud:httpserver
+
+    - name: httpclient
+      type: capability
+      properties:
+        image: wasmcloud.azurecr.io/httpclient:0.8.0
+        contract: wasmcloud:httpclient

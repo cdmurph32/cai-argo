@@ -15,7 +15,7 @@ spec:
     - name: rustls-wasi-demo
       type: actor
       properties:
-        image: registry.cosmonic.sh/6f4b0fd5-7fcf-4525-a23f-011d71717090/poprox_wc:0.1.0
+        image: registry.cosmonic.sh/6f4b0fd5-7fcf-4525-a23f-011d71717090/poprox_wc:0.2.0
       traits:
         - type: spreadscaler
           properties:
